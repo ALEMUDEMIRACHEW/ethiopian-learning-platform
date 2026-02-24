@@ -18,8 +18,8 @@ import {
   ArrowRight,
   TrendingUp
 } from 'lucide-react';
-import { MOCK_MATERIALS } from '../constants';
-import { cn } from '../lib/utils';
+import { MOCK_MATERIALS } from './constants';
+import { cn } from './utils';
 
 export const Materials = () => {
   const [searchQuery, setSearchQuery] = useState('');
