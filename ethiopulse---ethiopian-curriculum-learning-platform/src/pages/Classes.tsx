@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Search, Filter, Star, MoreVertical, Users, BookOpen } from 'lucide-react';
-import { MOCK_COURSES } from '../constants';
-import { cn } from '../lib/utils';
+import { MOCK_COURSES } from './constants';
+import { cn } from './utils';
 
 export const Classes = () => {
   const [courses, setCourses] = useState(MOCK_COURSES);
