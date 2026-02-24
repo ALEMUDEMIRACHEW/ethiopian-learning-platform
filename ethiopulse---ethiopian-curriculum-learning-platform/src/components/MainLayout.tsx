@@ -1,22 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { 
-  Home, 
-  BookOpen, 
-  FileText, 
-  Layout, 
-  MessageSquare, 
-  User, 
-  Settings, 
-  LogOut,
-  Bell,
-  Search,
-  Menu,
-  X
+  Home, BookOpen, FileText, MessageSquare, User, Settings, Bell, Search, Menu, X 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { cn } from '../lib/utils';
-import { MOCK_USER } from '../constants';
+// CORRECTED PATHS: Using root alias '@' or direct relative './'
+import { cn } from './utils'; 
+import { MOCK_USER } from './constants';
 
 interface SidebarItemProps {
   to: string;
