@@ -6,16 +6,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, '.'),
-    },
+    alias: { '@': path.resolve(__dirname, '.') },
   },
-  server: {
-    // Keep HMR enabled for your local development workflow
-    hmr: true,
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: false
-  }
+  build: { outDir: 'dist' }
 });
