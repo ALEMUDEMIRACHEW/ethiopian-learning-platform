@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { MainLayout } from './components/MainLayout';
-import { Home } from './pages/Home';
-import { Classes } from './pages/Classes';
-import { Materials } from './pages/Materials';
-import { Quizzes } from './pages/Quizzes';
-import { Profile } from './pages/Profile';
-import { Chat } from './pages/Chat';
-import { Settings } from './pages/Settings';
+import { MainLayout } from './MainLayout'; // Fixed path
+import { Home } from './Home';
+import { Classes } from './Classes';
+import { Materials } from './Materials';
+import { Quizzes } from './Quizzes';
+import { Profile } from './Profile';
+import { Chat } from './Chat';
+import { Settings } from './Settings';
 
 export default function App() {
   return (
