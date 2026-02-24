@@ -1,69 +1,62 @@
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { createServer as createViteServer } from "vite";
 import path from "path";
+import { fileURLToPath } from "url";
+import { GoogleGenAI } from "@google/genai";
+import dotenv from "dotenv";
 
-async function startServer() {
-  const app = express();
-  const httpServer = createServer(app);
-  const io = new Server(httpServer, {
-    cors: {
-      origin: "*",
-      methods: ["GET", "POST"]
-    }
-  });
+dotenv.config();
 
-  const PORT = 3000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const app = express();
+const httpServer = createServer(app);
 
-  // Real-time chat logic
-  io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
+// Initialize Socket.io for Real-time Chat
+const io = new Server(httpServer, {
+  cors: { origin: "*", methods: ["GET", "POST"] }
+});
 
-    socket.on("join-room", (room) => {
-      socket.join(room);
-      console.log(`User ${socket.id} joined room: ${room}`);
-    });
+app.use(express.json());
 
-    socket.on("send-message", (data) => {
-      // Broadcast to everyone in the room
-      io.to(data.room).emit("new-message", {
-        id: Math.random().toString(36).substr(2, 9),
-        senderId: socket.id,
-        senderName: data.senderName,
-        text: data.text,
-        timestamp: new Date().toISOString(),
-      });
-    });
-
-    socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
-    });
-  });
-
-  // API routes
-  app.get("/api/health", (req, res) => {
-    res.json({ status: "ok" });
-  });
-
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-  } else {
-    // Production static serving
-    app.use(express.static(path.join(process.cwd(), "dist")));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(process.cwd(), "dist", "index.html"));
-    });
+// Gemini AI Endpoint
+app.post("/api/chat", async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    const genAI = new GoogleGenAI(process.env.GEMINI_API_KEY || "");
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const result = await model.generateContent(prompt);
+    res.json({ text: result.response.text() });
+  } catch (error) {
+    console.error("AI Error:", error);
+    res.status(500).json({ error: "Gemini API failed" });
   }
+});
 
-  httpServer.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+// Socket.io Logic for Peer-to-Peer Class Chat
+io.on("connection", (socket) => {
+  socket.on("join-room", (room) => {
+    socket.join(room);
+  });
+
+  socket.on("send-message", (data) => {
+    io.to(data.room).emit("new-message", {
+      ...data,
+      id: Math.random().toString(36).substring(2, 11),
+      timestamp: new Date().toISOString(),
+    });
+  });
+});
+
+// Serve the React frontend in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
   });
 }
 
-startServer();
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, () => {
+  console.log(`EthioPulse Server live on port ${PORT}`);
+});
