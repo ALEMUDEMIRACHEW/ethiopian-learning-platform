@@ -46,20 +46,20 @@ async function startServer() {
     res.json({ status: "ok" });
   });
 
-  // server.ts snippet
-if (process.env.NODE_ENV !== "production" && process.env.VERCEL !== "1") {
+  // Vite middleware for development
+  if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
-} else {
-    // Standard static serving for production/Vercel
+  } else {
+    // Production static serving
     app.use(express.static(path.join(process.cwd(), "dist")));
     app.get("*", (req, res) => {
       res.sendFile(path.join(process.cwd(), "dist", "index.html"));
     });
-}
+  }
 
   httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);

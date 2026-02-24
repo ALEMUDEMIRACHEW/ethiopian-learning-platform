@@ -30,8 +30,7 @@ export const Chat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<Socket | null>(null);
-  const genAI = new GoogleGenAI(process.env.GEMINI_API_KEY || "");
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
   const topics = [
     { id: 't1', name: 'General Science', icon: '🧪' },
     { id: 't2', name: 'Mathematics', icon: '📐' },
