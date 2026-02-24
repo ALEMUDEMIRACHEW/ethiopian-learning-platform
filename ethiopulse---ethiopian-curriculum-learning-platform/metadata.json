@@ -1,0 +1,9 @@
+{
+  "name": "EthioPulse - Ethiopian Curriculum Learning Platform",
+  "description": "A culturally grounded, curriculum-mapped learning platform for Ethiopian students (KG-12). Features MoE approved materials, national exam simulations, and multi-language support.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}

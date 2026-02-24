@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", sans-serif;
+  
+  --color-eth-green: #1BAA56;
+  --color-eth-yellow: #FFCD00;
+  --color-eth-red: #D90027;
+  --color-eth-bg: #F0F2F5;
+  --color-eth-dark: #1A1A1A;
+
+  /* Mapping for existing components */
+  --color-edu-blue: #1BAA56;
+  --color-edu-orange: #FFCD00;
+  --color-edu-teal: #1BAA56;
+  --color-edu-bg: #F0F2F5;
+  --color-edu-dark: #1A1A1A;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+  
+  body {
+    @apply font-sans bg-eth-bg text-eth-dark;
+  }
+}
+
+.soft-shadow {
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+}
+
+.neumorphic {
+  background: #FAFAF7;
+  box-shadow: 20px 20px 60px #d5d5d2, -20px -20px 60px #ffffff;
+}
+
+.neumorphic-inset {
+  background: #FAFAF7;
+  box-shadow: inset 6px 6px 12px #d5d5d2, inset -6px -6px 12px #ffffff;
+}
+
+.eth-gradient {
+  background: linear-gradient(135deg, var(--color-eth-green) 0%, #0d5a2a 100%);
+}
+
+.eth-gradient-soft {
+  background: linear-gradient(135deg, rgba(21, 127, 59, 0.1) 0%, rgba(242, 201, 76, 0.1) 100%);
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
